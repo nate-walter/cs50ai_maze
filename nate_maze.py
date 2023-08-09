@@ -126,7 +126,13 @@ class Maze():
 
         #Initialize frontier to just the starting position
         start = Node(state=self.start, parent=None, action=None)
+        
+        #Uncomment for successful run of StackFrontier() search method
         frontier = StackFrontier()
+        
+        # Uncomment for successful run of QueueFrontier() search method
+        # frontier = QueueFrontier()
+        
         frontier.add(start)
 
         # Initialize an empty explored set

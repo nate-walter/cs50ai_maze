@@ -1,0 +1,8 @@
+frontier_type, maze_number, states_explored
+
+QueueFrontier, 1, 11
+QueueFrontier, 2, 77
+QueueFrontier, 3, 6
+StackFrontier, 1, 11
+StackFrontier, 2, 194
+StackFrontier, 3, 17
