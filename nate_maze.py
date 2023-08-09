@@ -78,7 +78,9 @@ class Maze():
                         row.append(True)
                 except IndexError:
                     row.append(False)
-            self.solution = None
+            self.walls.append(row)
+
+        self.solution = None
 
 
     def print(self):
@@ -106,13 +108,13 @@ class Maze():
             ("up", (row - 1, col)),
             ("down", (row + 1, col)),
             ("left", (row, col - 1)),
-            ("right", (rown, col + 1))
+            ("right", (row, col + 1))
         ]
 
         result = []
         for action, (r, c) in candidates:
             if 0 <= r < self.height and 0 <= c < self.width and not self.walls[r][c]:
-                results.append((action, (r, c)))
+                result.append((action, (r, c)))
         return result
 
     
@@ -142,13 +144,13 @@ class Maze():
             self.num_explored += 1
 
             # If node is the goal, then have a solution
-            if node.state = self.goal:
+            if node.state == self.goal:
                 actions = []
                 cells = []
                 while node.parent is not None: 
                     actions.append(node.action)
                     cells.append(node.state)
-                    node - node.parent
+                    node = node.parent
                 actions.reverse()
                 cells.reverse()
                 self.solution = (actions, cells)
@@ -178,7 +180,7 @@ class Maze():
         draw = ImageDraw.Draw(img)
 
         solution = self.solution[1] if self.solution is not None else None
-        for i, in row in enumerate(self.walls):
+        for i, row in enumerate(self.walls):
             for j, col in enumerate(row):
 
                 # Walls
@@ -190,12 +192,12 @@ class Maze():
                     fill = (255, 0, 0)
 
                 # Goal
-                elif (i, j) =- self.goal:
+                elif (i, j) == self.goal:
                     fill = (0, 171, 28)
 
                 # Solution 
                 elif solution is not None and show_solution and (i, j) in solution:
-                    fill (220, 235, 113)
+                    fill = (220, 235, 113)
 
                 # Explored 
                 elif solution is not None and show_explored and (i, j) in self.explored:
@@ -208,7 +210,7 @@ class Maze():
                 # Draw cell
                 draw.rectangle(
                     ([(j * cell_size + cell_border, i * cell_size + cell_border),
-                        ((j + 1) * cell_size - cell_border, (i + 1) * cell_size - cell_boreder)]),
+                        ((j + 1) * cell_size - cell_border, (i + 1) * cell_size - cell_border)]),
                     fill=fill
                 )
         
@@ -220,8 +222,8 @@ if len(sys.argv) !=2:
 
 m = Maze(sys.argv[1])
 print("Maze:")
-m,print()
-m.print("Solving...")
+m.print()
+print("Solving...")
 m.solve()
 print("States Explored:", m.num_explored)
 print("Solution")
